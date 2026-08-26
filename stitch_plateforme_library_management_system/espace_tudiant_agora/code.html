@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dashboard Étudiant - Agora</title>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config Injection -->
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-container": "#d5e0f7",
+                      "tertiary-fixed": "#d3e4ff",
+                      "outline-variant": "#c4c6cf",
+                      "on-tertiary-container": "#68a2e9",
+                      "on-secondary": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "background": "#faf9fd",
+                      "surface-tint": "#455f88",
+                      "error-container": "#ffdad6",
+                      "on-error": "#ffffff",
+                      "tertiary-fixed-dim": "#a2c9ff",
+                      "surface-container-high": "#e9e7eb",
+                      "on-primary-container": "#86a0cd",
+                      "outline": "#74777f",
+                      "tertiary-container": "#003765",
+                      "tertiary": "#002141",
+                      "surface-bright": "#faf9fd",
+                      "surface-container": "#efedf1",
+                      "on-secondary-container": "#586377",
+                      "error": "#ba1a1a",
+                      "surface-container-low": "#f4f3f7",
+                      "surface-container-highest": "#e3e2e6",
+                      "primary-container": "#1a365d",
+                      "on-secondary-fixed-variant": "#3c475a",
+                      "primary": "#002045",
+                      "on-tertiary-fixed-variant": "#004881",
+                      "on-tertiary": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "on-surface-variant": "#43474e",
+                      "on-tertiary-fixed": "#001c38",
+                      "surface": "#faf9fd",
+                      "on-background": "#1a1c1e",
+                      "secondary-fixed": "#d8e3fa",
+                      "primary-fixed-dim": "#adc7f7",
+                      "on-primary-fixed-variant": "#2d476f",
+                      "surface-container-lowest": "#ffffff",
+                      "inverse-surface": "#2f3033",
+                      "surface-variant": "#e3e2e6",
+                      "on-surface": "#1a1c1e",
+                      "primary-fixed": "#d6e3ff",
+                      "inverse-on-surface": "#f1f0f4",
+                      "secondary": "#545f72",
+                      "secondary-fixed-dim": "#bcc7dd",
+                      "on-primary-fixed": "#001b3c",
+                      "on-secondary-fixed": "#111c2c",
+                      "inverse-primary": "#adc7f7",
+                      "surface-dim": "#dad9dd"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "gutter": "20px",
+                      "lg": "24px",
+                      "xl": "48px",
+                      "container-max": "1280px",
+                      "base": "4px",
+                      "md": "16px",
+                      "sm": "8px",
+                      "xs": "4px"
+              },
+              "fontFamily": {
+                      "label-sm": ["Inter"],
+                      "display": ["Inter"],
+                      "body-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "headline-lg-mobile": ["Inter"],
+                      "headline-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "display": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        /* Custom scrollbar for data tables to keep the aesthetic clean */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c4c6cf;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #74777f;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased min-h-screen flex">
+<!-- JSON Component: SideNavBar -->
+<nav class="bg-primary dark:bg-primary-container h-screen w-[260px] fixed left-0 top-0 shadow-xl flex flex-col h-full py-lg text-on-primary dark:text-on-primary-container z-50">
+<!-- Header / Profile -->
+<div class="px-md mb-xl flex flex-col items-center text-center gap-sm">
+<div class="w-16 h-16 rounded-full overflow-hidden border-2 border-on-primary/20">
+<img alt="Photo du bibliothécaire" class="w-full h-full object-cover" data-alt="A professional headshot of an academic librarian in a well-lit modern library, soft high-key lighting, corporate headshot style, muted navy background, clear and dependable expression." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAssoYWShjw2TNkm99RpiXOwvsPGR2SAjxXrEBeiJrrwNnhsFW5mGbRhM4P98bqGoY1zQQJMRhPY3Ei-eK8O1CdOho5LL64qKcd9pg6qxR9diYZMhYxUwZIy0YcXgFJcZXJAymoYDSQrte4anr_NISwNnoB1h52u3lDaSBJpkXIA2dzQNa0_D53qzQKS9hSyiGOOFiSVY6L7AfX2ie4lZPou8fpuugAAZgqP_i65fHGLWBbOMkyJGvlfQ"/>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md">Agora</h2>
+<p class="font-label-sm text-label-sm text-on-primary/80">Gestionnaire Principal</p>
+</div>
+</div>
+<!-- Main Navigation Tabs -->
+<div class="flex-1 overflow-y-auto flex flex-col gap-xs px-xs">
+<!-- Active Tab: Dashboard -->
+<a class="bg-secondary-container text-on-secondary-container rounded-lg font-bold flex items-center px-4 py-3 mx-2 scale-100 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined mr-sm" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-sm text-label-sm">Dashboard</span>
+</a>
+<a class="text-on-primary/80 dark:text-on-primary-container/80 flex items-center px-4 py-3 mx-2 hover:bg-on-primary/10 dark:hover:bg-on-primary-container/10 transition-all scale-100 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined mr-sm">menu_book</span>
+<span class="font-label-sm text-label-sm">Livres</span>
+</a>
+<a class="text-on-primary/80 dark:text-on-primary-container/80 flex items-center px-4 py-3 mx-2 hover:bg-on-primary/10 dark:hover:bg-on-primary-container/10 transition-all scale-100 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined mr-sm">swap_horiz</span>
+<span class="font-label-sm text-label-sm">Emprunts</span>
+</a>
+<a class="text-on-primary/80 dark:text-on-primary-container/80 flex items-center px-4 py-3 mx-2 hover:bg-on-primary/10 dark:hover:bg-on-primary-container/10 transition-all scale-100 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined mr-sm">history_toggle_off</span>
+<span class="font-label-sm text-label-sm">Retards</span>
+</a>
+<a class="text-on-primary/80 dark:text-on-primary-container/80 flex items-center px-4 py-3 mx-2 hover:bg-on-primary/10 dark:hover:bg-on-primary-container/10 transition-all scale-100 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined mr-sm">group</span>
+<span class="font-label-sm text-label-sm">Utilisateurs</span>
+</a>
+<a class="text-on-primary/80 dark:text-on-primary-container/80 flex items-center px-4 py-3 mx-2 hover:bg-on-primary/10 dark:hover:bg-on-primary-container/10 transition-all scale-100 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined mr-sm">settings</span>
+<span class="font-label-sm text-label-sm">Paramètres</span>
+</a>
+</div>
+<!-- CTA -->
+<div class="px-md mt-auto mb-md">
+<button class="w-full bg-on-primary text-primary font-label-sm text-label-sm py-sm px-md rounded hover:bg-surface-container-low transition-colors shadow-sm">
+                Nouveau Prêt
+            </button>
+</div>
+<!-- Footer Tabs -->
+<div class="flex flex-col gap-xs px-xs border-t border-on-primary/10 pt-sm">
+<a class="text-on-primary/80 dark:text-on-primary-container/80 flex items-center px-4 py-3 mx-2 hover:bg-on-primary/10 dark:hover:bg-on-primary-container/10 transition-all scale-100 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined mr-sm">help</span>
+<span class="font-label-sm text-label-sm">Aide</span>
+</a>
+<a class="text-on-primary/80 dark:text-on-primary-container/80 flex items-center px-4 py-3 mx-2 hover:bg-on-primary/10 dark:hover:bg-on-primary-container/10 transition-all scale-100 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined mr-sm">logout</span>
+<span class="font-label-sm text-label-sm">Déconnexion</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 ml-[260px] min-h-screen flex flex-col bg-background relative">
+<!-- Header specific to Student Context (as requested) -->
+<header class="h-20 px-xl flex justify-between items-center border-b border-surface-variant bg-surface-container-lowest/80 backdrop-blur-md sticky top-0 z-40">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Bonjour, Thomas.</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Gérez vos emprunts et consultez le catalogue.</p>
+</div>
+<div class="flex items-center gap-md">
+<button class="bg-primary text-on-primary font-label-sm text-label-sm px-lg py-sm rounded-lg flex items-center gap-sm hover:bg-primary-container transition-colors shadow-sm active:scale-95 duration-150">
+<span class="material-symbols-outlined text-[18px]">search</span>
+                    Explorer le Catalogue
+                </button>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant shadow-sm ml-sm">
+<img alt="Avatar étudiant" class="w-full h-full object-cover" data-alt="A casual portrait of a young male university student with a subtle smile, standing in a brightly lit campus library setting, soft natural lighting, modern academic aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4qZPyW2ux0BiYtSRajOOx18vZO3YTp1CCTDHPCCc4narZmVk1ZdUK2fJW-Y0vr5Uh1hvgrrye1ZgRvHm53vJv5DRfcg0lCUT_jcWf1cg2w04m_HKedO0OdvBTMTQQVAQYcAzYabJCFNBbztPEBHdkH5E-hn6AhipxLMNIkCKcxK6eqYmI75LogWy_PrWkRZkNeqUAUOirgY6uSYr2vIFg4CraSTBYP-2Npaal7ZgBOCTbeswLjLcxvg"/>
+</div>
+</div>
+</header>
+<!-- Dashboard Content -->
+<div class="p-xl flex-1 flex flex-col gap-xl max-w-[1200px] w-full mx-auto">
+<!-- KPI Status Cards (Bento-style row) -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-lg">
+<!-- Card 1: En cours -->
+<div class="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant shadow-[0_2px_4px_rgba(26,54,93,0.05)] hover:shadow-[0_10px_15px_rgba(26,54,93,0.1)] transition-shadow duration-300 flex flex-col justify-between h-32 relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-tertiary-fixed opacity-50 rounded-full blur-2xl group-hover:bg-tertiary-fixed-dim transition-colors"></div>
+<div class="flex justify-between items-start relative z-10">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">En cours</span>
+<span class="material-symbols-outlined text-primary">auto_stories</span>
+</div>
+<div class="flex items-end gap-sm relative z-10">
+<span class="font-display text-display text-on-surface">3</span>
+<span class="font-body-md text-body-md text-on-surface-variant mb-1">livres</span>
+</div>
+</div>
+<!-- Card 2: En attente -->
+<div class="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant shadow-[0_2px_4px_rgba(26,54,93,0.05)] hover:shadow-[0_10px_15px_rgba(26,54,93,0.1)] transition-shadow duration-300 flex flex-col justify-between h-32 relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-surface-variant opacity-50 rounded-full blur-2xl group-hover:bg-outline-variant transition-colors"></div>
+<div class="flex justify-between items-start relative z-10">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">En attente</span>
+<span class="material-symbols-outlined text-outline">hourglass_empty</span>
+</div>
+<div class="flex items-end gap-sm relative z-10">
+<span class="font-display text-display text-on-surface">1</span>
+<span class="font-body-md text-body-md text-on-surface-variant mb-1">réservation</span>
+</div>
+</div>
+<!-- Card 3: En retard -->
+<div class="bg-surface-container-lowest rounded-xl p-lg border border-outline-variant shadow-[0_2px_4px_rgba(26,54,93,0.05)] hover:shadow-[0_10px_15px_rgba(26,54,93,0.1)] transition-shadow duration-300 flex flex-col justify-between h-32 relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-error-container opacity-50 rounded-full blur-2xl group-hover:bg-error/20 transition-colors"></div>
+<div class="flex justify-between items-start relative z-10">
+<span class="font-label-sm text-label-sm text-error uppercase tracking-wider">En retard</span>
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div class="flex items-end gap-sm relative z-10">
+<span class="font-display text-display text-error">0</span>
+<span class="font-body-md text-body-md text-on-surface-variant mb-1">pénalité</span>
+</div>
+</div>
+</section>
+<!-- Active Loans Table Section -->
+<section class="flex flex-col gap-md">
+<div class="flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface">Emprunts actuels</h3>
+</div>
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-[0_2px_4px_rgba(26,54,93,0.05)] overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-surface-variant">
+<th class="py-sm px-lg font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider w-1/2">Livre</th>
+<th class="py-sm px-lg font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Date d'emprunt</th>
+<th class="py-sm px-lg font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Retour prévu</th>
+<th class="py-sm px-lg font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider text-right">Statut</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-variant font-body-md text-body-md text-on-surface">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-md px-lg">
+<div class="flex items-center gap-md">
+<div class="w-10 h-14 bg-surface-variant rounded flex-shrink-0 shadow-sm overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A minimalist book cover design featuring abstract geometric shapes in shades of deep navy and light blue, academic publishing style, clean and modern aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHrcYIbWPZfZlv0c2MPixlBusPRjK-UdHXZqtdGN-dwCzF2cSfTpSP57XsUDwua71WZb1kb44AbnYR-U13-waEcHsfLVB9_8WzhI8sH4rj3_s-Np_MRfsbkzHkO2_jbAD-gCHFOARyck_eMQ340GJAnZkHUUL-6QANw-HLazAILoWYanJurCini_NmQVw0DD0AdXNWzm1yw2MnaJGoznR0KhKRe4N05w7SxVX76uvD5B4lrSga69h6JA"/>
+</div>
+<div>
+<p class="font-headline-md text-body-lg text-on-surface font-semibold">Introduction to Algorithms</p>
+<p class="font-body-md text-label-sm text-on-surface-variant mt-1">Thomas H. Cormen</p>
+</div>
+</div>
+</td>
+<td class="py-md px-lg text-on-surface-variant">12 Oct 2023</td>
+<td class="py-md px-lg text-on-surface">26 Oct 2023</td>
+<td class="py-md px-lg text-right">
+<span class="inline-flex items-center justify-center px-2 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">
+                                        En cours
+                                    </span>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-md px-lg">
+<div class="flex items-center gap-md">
+<div class="w-10 h-14 bg-surface-variant rounded flex-shrink-0 shadow-sm overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A striking book cover design with a stark white background and a bold, sans-serif typography title, minimalist graphic design textbook style, highly legible." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB95w-607oerwNGIDMiExvHPAARssBjEzQRV-Duhw_npbkidvqmsWjseXqxoXh1G2vU0jHGzGaBRdgZpStMQh-hNr3MM5cmeY5VyyoHblIptJ3MbUOIBZVikr-EepSJmDQSdI7FTSnhUV6nKvY4crs3xGd_XlxyhJ0mrzcTYn9dctbWlBf9AUpX6lWlhqvDn-zUa6JNSs0FXwuE9neUlMRlNYBZnx37DH7gMN4CU5pNU3-OdO7vIfeKxw"/>
+</div>
+<div>
+<p class="font-headline-md text-body-lg text-on-surface font-semibold">Design of Everyday Things</p>
+<p class="font-body-md text-label-sm text-on-surface-variant mt-1">Don Norman</p>
+</div>
+</div>
+</td>
+<td class="py-md px-lg text-on-surface-variant">05 Oct 2023</td>
+<td class="py-md px-lg text-error font-medium">19 Oct 2023</td>
+<td class="py-md px-lg text-right">
+<span class="inline-flex items-center justify-center px-2 py-1 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm">
+                                        En retard
+                                    </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- History Section (Bottom) -->
+<section class="flex flex-col gap-md mt-lg mb-xl">
+<h3 class="font-headline-md text-headline-md text-on-surface">Historique récent</h3>
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-lg shadow-[0_2px_4px_rgba(26,54,93,0.05)]">
+<ul class="flex flex-col gap-sm">
+<li class="flex items-center justify-between py-sm border-b border-surface-variant last:border-0 last:pb-0">
+<div class="flex items-center gap-md">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface">Retourné : <em>Clean Code</em></p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Il y a 3 jours</span>
+</li>
+<li class="flex items-center justify-between py-sm border-b border-surface-variant last:border-0 last:pb-0">
+<div class="flex items-center gap-md">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">bookmark_added</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface">Réservation confirmée : <em>The Pragmatic Programmer</em></p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Il y a 1 semaine</span>
+</li>
+</ul>
+<button class="mt-md font-label-sm text-label-sm text-primary hover:text-tertiary-container transition-colors flex items-center gap-xs">
+                        Voir tout l'historique <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</section>
+</div>
+</main>
+</body></html>
