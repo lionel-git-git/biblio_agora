@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CatalogueController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmpruntController;
@@ -37,6 +38,13 @@ Route::middleware(['auth', 'verified', 'role:etudiant'])->group(function () {
 Route::middleware(['auth', 'verified', 'role:bibliothecaire,admin'])->group(function () {
     Route::get('/bibliothecaire/dashboard', [DashboardController::class, 'bibliothecaire'])->name('bibliothecaire.dashboard');
 
+    Route::get('/catalogues', [CatalogueController::class, 'index'])->name('catalogues.index');
+    Route::get('/catalogues/creer', [CatalogueController::class, 'create'])->name('catalogues.create');
+    Route::post('/catalogues', [CatalogueController::class, 'store'])->name('catalogues.store');
+    Route::get('/catalogues/{catalogue}/modifier', [CatalogueController::class, 'edit'])->name('catalogues.edit');
+    Route::put('/catalogues/{catalogue}', [CatalogueController::class, 'update'])->name('catalogues.update');
+    Route::delete('/catalogues/{catalogue}', [CatalogueController::class, 'destroy'])->name('catalogues.destroy');
+
     Route::get('/livres/gestion', [LivreController::class, 'index'])->name('livres.index');
     Route::get('/livres/creer', [LivreController::class, 'create'])->name('livres.create');
     Route::post('/livres', [LivreController::class, 'store'])->name('livres.store');
@@ -65,6 +73,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/photo', [ProfileController::class, 'uploadPhoto'])->name('profile.photo');
+    Route::delete('/profile/photo', [ProfileController::class, 'deletePhoto'])->name('profile.photo.destroy');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 

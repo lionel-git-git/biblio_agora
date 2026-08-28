@@ -68,9 +68,9 @@
             @forelse ($livres as $livre)
             <article class="bg-surface-container-lowest rounded border border-surface-container-highest shadow-sm hover:shadow-lg transition-shadow duration-200 overflow-hidden flex flex-col h-full relative">
                 <div class="absolute top-2 right-2 z-10 font-label-sm text-label-sm px-2 py-1 rounded-full flex items-center gap-1 shadow-sm
-                    {{ $livre->quantite_disponible > 0 ? 'bg-[#e6f4ea] text-[#137333] border border-[#ceead6]' : 'bg-surface-container-high text-secondary border border-outline-variant' }}">
-                    <span class="material-symbols-outlined text-[14px]">{{ $livre->quantite_disponible > 0 ? 'check_circle' : 'schedule' }}</span>
-                    {{ $livre->quantite_disponible > 0 ? 'Disponible' : 'Emprunté' }}
+                    {{ $livre->statut === 'indisponible' || $livre->quantite_disponible <= 0 ? 'bg-surface-container-high text-secondary border border-outline-variant' : 'bg-[#e6f4ea] text-[#137333] border border-[#ceead6]' }}">
+                    <span class="material-symbols-outlined text-[14px]">{{ $livre->statut === 'disponible' && $livre->quantite_disponible > 0 ? 'check_circle' : 'schedule' }}</span>
+                    {{ $livre->statut === 'disponible' && $livre->quantite_disponible > 0 ? 'Disponible' : 'Indisponible' }}
                 </div>
                 <div class="aspect-[2/3] w-full bg-surface-container-highest overflow-hidden flex items-center justify-center">
                     @if ($livre->image_couverture)
@@ -84,7 +84,7 @@
                     <h2 class="font-headline-md text-headline-md text-primary leading-tight mb-xs line-clamp-2">{{ $livre->titre }}</h2>
                     <p class="font-body-md text-body-md text-on-surface-variant mb-md flex-grow">{{ $livre->auteur }}</p>
                     @auth
-                        @if ($livre->quantite_disponible > 0)
+                        @if ($livre->statut === 'disponible' && $livre->quantite_disponible > 0)
                             <form method="POST" action="{{ route('emprunts.store', $livre) }}" class="mt-auto">
                                 @csrf
                                 <button class="w-full bg-primary-container text-on-primary rounded px-sm py-sm font-label-sm text-label-sm hover:bg-primary transition-colors">

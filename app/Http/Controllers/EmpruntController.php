@@ -24,6 +24,10 @@ class EmpruntController extends Controller
             return back()->with('error', 'Ce livre n\'est actuellement pas disponible à l\'emprunt.');
         }
 
+        if ($livre->statut !== Livre::STATUT_DISPONIBLE) {
+            return back()->with('error', 'Ce livre n\'est actuellement pas disponible à l\'emprunt.');
+        }
+
         $dejaDemande = Emprunt::where('user_id', auth()->id())
             ->where('livre_id', $livre->id)
             ->whereIn('statut', [Emprunt::STATUT_EN_ATTENTE, Emprunt::STATUT_EN_COURS, Emprunt::STATUT_EN_RETARD])

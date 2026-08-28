@@ -42,6 +42,30 @@
                            id="genre" name="genre" required type="text" value="{{ old('genre', $livre->genre) }}">
                 </div>
 
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+                    <div>
+                        <label class="block font-label-sm text-label-sm text-on-surface mb-xs" for="catalogue_id">Catalogue</label>
+                        <select class="block w-full px-sm py-sm font-body-md text-body-md bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-on-surface"
+                               id="catalogue_id" name="catalogue_id">
+                            <option value="">-- Aucun catalogue --</option>
+                            @foreach ($catalogues as $catalogue)
+                                <option value="{{ $catalogue->id }}" @selected(old('catalogue_id', $livre->catalogue_id) == $catalogue->id)>{{ $catalogue->nom }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block font-label-sm text-label-sm text-on-surface mb-xs" for="statut">Statut</label>
+                        <select class="block w-full px-sm py-sm font-body-md text-body-md bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-on-surface"
+                               id="statut" name="statut">
+                            @foreach (\App\Models\Livre::STATUT_LABELS as $cle => $libelle)
+                                <option value="{{ $cle }}" @selected(old('statut', $livre->statut) === $cle)>{{ $libelle }}</option>
+                            @endforeach
+                        </select>
+                        <p class="font-body-md text-body-md text-secondary mt-xs">« Retiré » masque le livre du catalogue public.</p>
+                    </div>
+                </div>
+
                 <div>
                     <label class="block font-label-sm text-label-sm text-on-surface mb-xs" for="description">Description</label>
                     <textarea class="block w-full px-sm py-sm font-body-md text-body-md bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-on-surface"

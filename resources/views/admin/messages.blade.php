@@ -39,13 +39,17 @@
                                 </button>
                             </form>
                         @endif
-                        <form method="POST" action="{{ route('admin.messages.destroy', $message) }}" onsubmit="return confirm('Supprimer ce message ?');">
-                            @csrf
-                            @method('DELETE')
-                            <button class="inline-flex items-center gap-xs text-error border border-outline-variant rounded-lg px-md py-sm font-label-sm text-label-sm hover:bg-error-container transition-colors">
-                                <span class="material-symbols-outlined text-[16px]">delete</span>
-                            </button>
-                        </form>
+                        <button type="button"
+                            @click="$store.confirm.ask({
+                                title: 'Supprimer ce message ?',
+                                message: 'Le message de {{ $message->nom }} sera définitivement supprimé.',
+                                action: '{{ route('admin.messages.destroy', $message) }}',
+                                method: 'DELETE',
+                                confirmLabel: 'Supprimer'
+                            })"
+                            class="inline-flex items-center gap-xs text-error border border-outline-variant rounded-lg px-md py-sm font-label-sm text-label-sm hover:bg-error-container transition-colors">
+                            <span class="material-symbols-outlined text-[16px]">delete</span>
+                        </button>
                     </div>
                 </div>
                 <div class="px-lg py-md {{ $message->lu ? '' : 'bg-surface-container-low' }}">

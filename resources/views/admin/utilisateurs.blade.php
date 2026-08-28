@@ -96,13 +96,17 @@
 
                     <div class="col-span-2 flex justify-start md:justify-end">
                         @if ($user->id !== Auth::id())
-                            <form method="POST" action="{{ route('admin.utilisateurs.destroy', $user) }}" onsubmit="return confirm('Supprimer l\'utilisateur {{ addslashes($user->name) }} ?');">
-                                @csrf
-                                @method('DELETE')
-                                <button class="inline-flex items-center gap-xs text-error border border-outline-variant rounded-lg px-md py-sm font-label-sm text-label-sm hover:bg-error-container transition-colors">
-                                    <span class="material-symbols-outlined text-[16px]">delete</span> Supprimer
-                                </button>
-                            </form>
+                            <button type="button"
+                                    @click="$store.confirm.ask({
+                                        title: 'Supprimer cet utilisateur ?',
+                                        message: 'Le compte de « {{ $user->name }} » ({{ $user->email }}) sera définitivement supprimé.',
+                                        action: '{{ route('admin.utilisateurs.destroy', $user) }}',
+                                        method: 'DELETE',
+                                        confirmLabel: 'Supprimer'
+                                    })"
+                                    class="inline-flex items-center gap-xs text-error border border-outline-variant rounded-lg px-md py-sm font-label-sm text-label-sm hover:bg-error-container transition-colors">
+                                <span class="material-symbols-outlined text-[16px]">delete</span> Supprimer
+                            </button>
                         @else
                             <span class="font-body-md text-body-md text-secondary">Vous</span>
                         @endif

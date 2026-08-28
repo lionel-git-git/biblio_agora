@@ -70,32 +70,44 @@
 
                     <div class="flex gap-sm items-center shrink-0">
                         @if ($emprunt->statut === 'en_attente')
-                            <form method="POST" action="{{ route('emprunts.valider', $emprunt) }}">
-                                @csrf
-                                @method('PATCH')
-                                <button class="inline-flex items-center gap-xs bg-success-container text-on-success-container rounded-lg px-md py-sm font-label-sm text-label-sm hover:opacity-80 transition-opacity">
-                                    <span class="material-symbols-outlined text-[16px]">check</span> Valider
-                                </button>
-                            </form>
-                            <form method="POST" action="{{ route('emprunts.refuser', $emprunt) }}">
-                                @csrf
-                                @method('PATCH')
-                                <button class="inline-flex items-center gap-xs bg-error-container text-on-error-container rounded-lg px-md py-sm font-label-sm text-label-sm hover:opacity-80 transition-opacity">
-                                    <span class="material-symbols-outlined text-[16px]">close</span> Refuser
-                                </button>
-                            </form>
+                            <button type="button"
+                                    @click="$store.confirm.ask({
+                                        title: 'Valider cette demande ?',
+                                        message: 'La demande d\'emprunt de « {{ $emprunt->livre->titre }} » sera acceptée et un exemplaire sera retiré du stock.',
+                                        action: '{{ route('emprunts.valider', $emprunt) }}',
+                                        method: 'PATCH',
+                                        confirmLabel: 'Valider'
+                                    })"
+                                    class="inline-flex items-center gap-xs bg-success-container text-on-success-container rounded-lg px-md py-sm font-label-sm text-label-sm hover:opacity-80 transition-opacity">
+                                <span class="material-symbols-outlined text-[16px]">check</span> Valider
+                            </button>
+                            <button type="button"
+                                    @click="$store.confirm.ask({
+                                        title: 'Refuser cette demande ?',
+                                        message: 'La demande d\'emprunt de « {{ $emprunt->livre->titre }} » sera refusée.',
+                                        action: '{{ route('emprunts.refuser', $emprunt) }}',
+                                        method: 'PATCH',
+                                        confirmLabel: 'Refuser'
+                                    })"
+                                    class="inline-flex items-center gap-xs bg-error-container text-on-error-container rounded-lg px-md py-sm font-label-sm text-label-sm hover:opacity-80 transition-opacity">
+                                <span class="material-symbols-outlined text-[16px]">close</span> Refuser
+                            </button>
                         @elseif (in_array($emprunt->statut, ['en_cours', 'en_retard'], true))
                             <span class="px-md py-sm rounded-full text-label-sm font-label-sm {{ $emprunt->statut === 'en_retard' ? 'bg-error-container text-on-error-container' : 'bg-primary-container text-on-primary' }} flex items-center gap-sm">
                                 <span class="material-symbols-outlined text-[16px]">{{ $emprunt->statut === 'en_retard' ? 'warning' : 'book' }}</span>
                                 {{ $emprunt->statut === 'en_retard' ? 'En retard' : 'En cours' }}
                             </span>
-                            <form method="POST" action="{{ route('emprunts.retour', $emprunt) }}">
-                                @csrf
-                                @method('PATCH')
-                                <button class="inline-flex items-center gap-xs bg-primary-container text-on-primary rounded-lg px-md py-sm font-label-sm text-label-sm hover:bg-primary transition-colors">
-                                    <span class="material-symbols-outlined text-[16px]">assignment_return</span> Retour
-                                </button>
-                            </form>
+                            <button type="button"
+                                    @click="$store.confirm.ask({
+                                        title: 'Enregistrer le retour ?',
+                                        message: 'Le retour de « {{ $emprunt->livre->titre }} » sera enregistré et l\'exemplaire remis en stock.',
+                                        action: '{{ route('emprunts.retour', $emprunt) }}',
+                                        method: 'PATCH',
+                                        confirmLabel: 'Enregistrer'
+                                    })"
+                                    class="inline-flex items-center gap-xs bg-primary-container text-on-primary rounded-lg px-md py-sm font-label-sm text-label-sm hover:bg-primary transition-colors">
+                                <span class="material-symbols-outlined text-[16px]">assignment_return</span> Retour
+                            </button>
                         @elseif ($emprunt->statut === 'retourne')
                             <span class="px-md py-sm rounded-full text-label-sm font-label-sm bg-success-container text-on-success-container flex items-center gap-sm">
                                 <span class="material-symbols-outlined text-[16px]">task_alt</span> Retourné

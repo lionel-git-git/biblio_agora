@@ -2,22 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Catalogue;
 use App\Models\Livre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class LivreController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $livres = Livre::withCount('emprunts')->orderBy('titre')->paginate(15);
+        $query = Livre::withCount('emprunts');
+
+        if ($request->filled('statut')) {
+            $query->where('statut', $request->statut);
+        }
+
+        $livres = $query->orderBy('titre')->paginate(15)->withQueryString();
 
         return view('livres.index', compact('livres'));
     }
 
     public function create()
     {
-        return view('livres.create');
+        $catalogues = Catalogue::orderBy('nom')->get();
+
+        return view('livres.create', compact('catalogues'));
     }
 
     public function store(Request $request)
@@ -30,10 +40,13 @@ class LivreController extends Controller
             'langue' => ['nullable', 'string', 'max:255'],
             'quantite_totale' => ['required', 'integer', 'min:1'],
             'image_couverture' => ['nullable', 'image', 'max:2048'],
+            'catalogue_id' => ['nullable', 'exists:catalogues,id'],
+            'statut' => ['nullable', Rule::in(array_keys(Livre::STATUT_LABELS))],
         ]);
 
         $data = $request->except('image_couverture');
         $data['quantite_disponible'] = $request->quantite_totale;
+        $data['statut'] = $request->statut ?? Livre::STATUT_DISPONIBLE;
 
         if ($request->hasFile('image_couverture')) {
             $data['image_couverture'] = $request->file('image_couverture')->store('livres', 'public');
@@ -46,7 +59,9 @@ class LivreController extends Controller
 
     public function edit(Livre $livre)
     {
-        return view('livres.edit', compact('livre'));
+        $catalogues = Catalogue::orderBy('nom')->get();
+
+        return view('livres.edit', compact('livre', 'catalogues'));
     }
 
     public function update(Request $request, Livre $livre)
@@ -59,6 +74,8 @@ class LivreController extends Controller
             'langue' => ['nullable', 'string', 'max:255'],
             'quantite_totale' => ['required', 'integer', 'min:1'],
             'image_couverture' => ['nullable', 'image', 'max:2048'],
+            'catalogue_id' => ['nullable', 'exists:catalogues,id'],
+            'statut' => ['nullable', Rule::in(array_keys(Livre::STATUT_LABELS))],
         ]);
 
         $empruntes = max(0, $livre->quantite_totale - $livre->quantite_disponible);
@@ -101,7 +118,7 @@ class LivreController extends Controller
 
     public function catalogue(Request $request)
     {
-        $query = Livre::query();
+        $query = Livre::where('statut', '!=', Livre::STATUT_RETIRE);
 
         if ($request->filled('recherche')) {
             $query->where(function ($q) use ($request) {
