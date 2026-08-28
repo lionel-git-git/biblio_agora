@@ -31,6 +31,6 @@ class User extends Authenticatable
     }
     public function emprunts()
 {
-    return $this->hasMany(Emprunt::class);/* cela veut dire  "un utilisateur a plusieurs emprunts"*/ */
+    return $this->hasMany(Emprunt::class);// cela veut dire  "un utilisateur a plusieurs emprunts"
 }
 }

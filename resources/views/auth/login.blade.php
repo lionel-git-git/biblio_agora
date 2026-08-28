@@ -1,47 +1,156 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+<!DOCTYPE html>
+<html class="light" lang="fr">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Agora - Connexion</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                "colors": {
+                    "secondary-container": "#d5e0f7",
+                    "tertiary-fixed": "#d3e4ff",
+                    "outline-variant": "#c4c6cf",
+                    "on-tertiary-container": "#68a2e9",
+                    "on-secondary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "background": "#faf9fd",
+                    "surface-tint": "#455f88",
+                    "error-container": "#ffdad6",
+                    "on-error": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-variant": "#e3e2e6",
+                    "on-surface": "#1a1c1e",
+                    "primary-fixed": "#d6e3ff",
+                    "primary-container": "#1a365d",
+                    "primary": "#002045",
+                    "on-primary": "#ffffff",
+                    "on-surface-variant": "#43474e",
+                    "outline": "#74777f",
+                    "error": "#ba1a1a"
+                },
+                "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+                "spacing": { "gutter": "20px", "lg": "24px", "xl": "48px", "base": "4px", "md": "16px", "sm": "8px", "xs": "4px" },
+                "fontFamily": { "label-sm": ["Inter"], "display": ["Inter"], "body-md": ["Inter"], "body-lg": ["Inter"], "headline-md": ["Inter"], "headline-lg": ["Inter"] },
+                "fontSize": {
+                    "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                    "display": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                    "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                    "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                    "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                }
+            }
+        }
+    }
+</script>
+<style>
+    .texture-bg {
+        background-color: #faf9fd;
+        background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231a365d' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+</style>
+</head>
+<body class="texture-bg min-h-screen flex items-center justify-center p-md md:p-lg antialiased text-on-surface">
+<div class="w-full max-w-[1000px] bg-surface-container-lowest rounded-xl shadow-[0_10px_15px_rgba(26,54,93,0.1)] border border-surface-variant overflow-hidden flex flex-col md:flex-row">
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
-
-        <!-- Email Address -->
+    <div class="bg-primary-container p-xl flex flex-col justify-between w-full md:w-5/12 text-on-primary">
         <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <div class="flex items-center gap-sm mb-xl">
+                <span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">menu_book</span>
+                <h1 class="font-headline-lg text-headline-lg font-bold">Agora</h1>
+            </div>
+            <h2 class="font-display text-display mb-md">Portail d'accès</h2>
+            <p class="font-body-lg text-body-lg text-on-primary/80 mb-xl">Accédez aux ressources numériques, gérez vos emprunts et consultez le catalogue complet de notre bibliothèque.</p>
+            <div class="space-y-md">
+                <div class="flex items-start gap-md">
+                    <div class="bg-on-primary/10 p-sm rounded-lg"><span class="material-symbols-outlined">school</span></div>
+                    <div>
+                        <h3 class="font-headline-md text-headline-md text-sm">Étudiants</h3>
+                        <p class="font-body-md text-body-md text-on-primary/70 text-xs">Accès avec vos identifiants standards.</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-md">
+                    <div class="bg-on-primary/10 p-sm rounded-lg"><span class="material-symbols-outlined">badge</span></div>
+                    <div>
+                        <h3 class="font-headline-md text-headline-md text-sm">Personnel &amp; Chercheurs</h3>
+                        <p class="font-body-md text-body-md text-on-primary/70 text-xs">Accès étendu aux bases de données spécialisées.</p>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        <div class="mt-xl pt-lg border-t border-on-primary/20">
+            <p class="font-label-sm text-label-sm text-on-primary/60">© 2026 Agora Academic.</p>
         </div>
+    </div>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-            </label>
-        </div>
+    <div class="p-xl w-full md:w-7/12 flex flex-col justify-center">
+        <div class="max-w-[400px] mx-auto w-full">
+            <div class="mb-lg text-center md:text-left">
+                <h2 class="font-headline-lg text-headline-lg text-primary mb-sm">Connexion</h2>
+                <p class="font-body-md text-body-md text-on-surface-variant">Veuillez entrer vos identifiants pour continuer.</p>
+            </div>
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
+            @if ($errors->any())
+                <div class="mb-md p-sm bg-error-container text-on-error-container rounded-lg text-body-md">
+                    @foreach ($errors->all() as $error)
+                        <p>{{ $error }}</p>
+                    @endforeach
+                </div>
             @endif
 
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
+            <form class="space-y-md" method="POST" action="{{ route('login') }}">
+                @csrf
+                <div>
+                    <label class="block font-label-sm text-label-sm text-on-surface mb-xs" for="email">Adresse Email</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-sm flex items-center pointer-events-none">
+                            <span class="material-symbols-outlined text-outline">mail</span>
+                        </div>
+                        <input class="block w-full pl-xl pr-sm py-sm font-body-md text-body-md bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors text-on-surface placeholder:text-outline/70"
+                               id="email" name="email" placeholder="john.doe@email.com" required type="email" value="{{ old('email') }}" autofocus>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between items-center mb-xs">
+                        <label class="block font-label-sm text-label-sm text-on-surface" for="password">Mot de passe</label>
+                        @if (Route::has('password.request'))
+                            <a class="font-label-sm text-label-sm text-primary hover:text-primary-container transition-colors" href="{{ route('password.request') }}">Mot de passe oublié ?</a>
+                        @endif
+                    </div>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-sm flex items-center pointer-events-none">
+                            <span class="material-symbols-outlined text-outline">lock</span>
+                        </div>
+                        <input class="block w-full pl-xl pr-sm py-sm font-body-md text-body-md bg-surface-container-lowest border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors text-on-surface"
+                               id="password" name="password" placeholder="••••••••" required type="password">
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <input class="h-4 w-4 rounded border-outline-variant text-primary focus:ring-primary bg-surface-container-lowest" id="remember_me" name="remember" type="checkbox">
+                    <label class="ml-sm block font-body-md text-body-md text-on-surface-variant" for="remember_me">Rester connecté</label>
+                </div>
+                <button class="w-full flex justify-center items-center gap-sm py-sm px-md border border-transparent rounded-lg shadow-sm font-label-sm text-label-sm text-on-primary bg-primary-container hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors mt-lg"
+                        type="submit">
+                    Se connecter
+                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                </button>
+            </form>
+
+            <div class="mt-xl text-center">
+                <p class="font-body-md text-body-md text-on-surface-variant">
+                    Nouvel utilisateur ?
+                    <a class="font-label-sm text-label-sm text-primary hover:text-primary-container transition-colors ml-xs" href="{{ route('register') }}">Créer un compte</a>
+                </p>
+            </div>
         </div>
-    </form>
-</x-guest-layout>
+    </div>
+</div>
+</body>
+</html>
