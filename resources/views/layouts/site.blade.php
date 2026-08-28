@@ -158,7 +158,11 @@
                     <h1 class="font-headline-md text-headline-md text-primary leading-tight">{{ $activeLabel }}</h1>
                 </div>
             </div>
-            <div x-data="{ open: false }" class="relative">
+            <div class="flex items-center gap-sm">
+                <a href="{{ url('/') }}" class="hidden sm:inline-flex items-center gap-sm text-primary border border-outline-variant rounded-lg px-md py-sm font-label-sm text-label-sm hover:bg-surface-container-low transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">public</span> Voir le site
+                </a>
+                <div x-data="{ open: false }" class="relative">
                 <button @click="open = ! open" class="flex items-center gap-sm bg-surface-container-low rounded-full px-md py-sm border border-outline-variant hover:bg-surface-container-high transition-colors">
                     <div class="w-8 h-8 rounded-full overflow-hidden bg-primary-fixed flex items-center justify-center">
                         @if ($u->photo_url)
@@ -181,6 +185,7 @@
                         <span class="material-symbols-outlined text-[18px]">logout</span> Déconnexion
                     </a>
                 </div>
+            </div>
             </div>
         </header>
 
