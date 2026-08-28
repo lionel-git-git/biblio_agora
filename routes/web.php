@@ -17,6 +17,9 @@ Route::get('/', function () {
 
 Route::get('/catalogue', [LivreController::class, 'catalogue'])->name('catalogue');
 
+Route::view('/services', 'services')->name('services');
+Route::view('/aide', 'aide')->name('aide');
+
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 

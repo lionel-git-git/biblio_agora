@@ -1,60 +1,9 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>Catalogue - Agora</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
-<script id="tailwind-config">
-    tailwind.config = {
-        darkMode: "class",
-        theme: {
-            extend: {
-                "colors": {
-                    "outline-variant": "#c4c6cf", "background": "#faf9fd", "surface-container-lowest": "#ffffff",
-                    "surface-variant": "#e3e2e6", "on-surface": "#1a1c1e", "primary-container": "#1a365d",
-                    "primary": "#002045", "on-primary": "#ffffff", "on-surface-variant": "#43474e",
-                    "outline": "#74777f", "surface": "#faf9fd", "surface-container-low": "#f4f3f7",
-                    "surface-container-high": "#e9e7eb", "surface-container-highest": "#e3e2e6", "secondary": "#545f72"
-                },
-                "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
-                "spacing": { "gutter": "20px", "lg": "24px", "xl": "48px", "container-max": "1280px", "base": "4px", "md": "16px", "sm": "8px", "xs": "4px" },
-                "fontFamily": { "label-sm": ["Inter"], "display": ["Inter"], "body-md": ["Inter"], "headline-md": ["Inter"] },
-                "fontSize": {
-                    "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
-                    "display": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
-                    "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
-                    "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }]
-                }
-            }
-        }
-    }
-</script>
-<style> body { font-family: 'Inter', sans-serif; } </style>
-</head>
-<body class="bg-background text-on-background min-h-screen flex flex-col">
+@extends('layouts.public')
 
-<header class="bg-surface shadow-sm border-b border-outline-variant sticky top-0 z-50">
-<div class="flex justify-between items-center w-full px-lg py-md max-w-container-max mx-auto">
-    <a class="text-headline-md font-headline-md font-bold text-primary" href="{{ url('/') }}">Agora</a>
-    <nav class="hidden md:flex items-center gap-lg">
-        <a class="text-secondary font-body-md hover:text-primary transition-colors" href="{{ url('/') }}">Accueil</a>
-        <a class="text-primary border-b-2 border-primary font-bold pb-1" href="{{ route('catalogue') }}">Catalogue</a>
-        <a class="text-secondary font-body-md hover:text-primary transition-colors" href="#">Services</a>
-        <a class="text-secondary font-body-md hover:text-primary transition-colors" href="#">Aide</a>
-        <a class="text-secondary font-body-md hover:text-primary transition-colors" href="{{ route('contact') }}">Contact</a>
-    </nav>
-    @auth
-    <a href="{{ route('dashboard') }}" class="bg-primary-container text-on-primary rounded px-md py-sm font-label-sm text-label-sm hover:bg-primary transition-colors">Tableau de bord</a>
-    @else
-    <a href="{{ route('login') }}" class="bg-primary-container text-on-primary rounded px-md py-sm font-label-sm text-label-sm hover:bg-primary transition-colors">Connexion</a>
-    @endauth
-</div>
-</header>
+@section('title', 'Catalogue - Agora')
 
-<main class="flex-grow w-full max-w-container-max mx-auto px-lg py-xl flex flex-col md:flex-row gap-xl">
+@section('content')
+<div class="w-full max-w-container-max mx-auto px-gutter md:px-xl py-xl flex flex-col md:flex-row gap-xl">
 
     <aside class="w-full md:w-[240px] flex-shrink-0">
         <form method="GET" action="{{ route('catalogue') }}" class="bg-surface-container-lowest border border-outline-variant rounded p-lg shadow-sm">
@@ -148,9 +97,9 @@
                             </button>
                         @endif
                     @else
-                        <button class="w-full bg-surface-container-low text-primary border border-outline-variant rounded px-sm py-sm font-label-sm text-label-sm hover:bg-surface-container-highest transition-colors mt-auto">
-                            Voir détails
-                        </button>
+                        <a href="{{ route('login') }}" class="w-full block text-center bg-surface-container-low text-primary border border-outline-variant rounded px-sm py-sm font-label-sm text-label-sm hover:bg-surface-container-highest transition-colors mt-auto">
+                            Se connecter pour emprunter
+                        </a>
                     @endauth
                 </div>
             </article>
@@ -163,6 +112,5 @@
             {{ $livres->links() }}
         </div>
     </section>
-</main>
-</body>
-</html>
+</div>
+@endsection
