@@ -1,27 +1,51 @@
-*.log
-.DS_Store
+# Dépendances
+/vendor
+/node_modules
+
+# Builds
+/public/build
+/public/hot
+/public/fonts-manifest.dev.json
+
+# Fichiers d'environnement (secrets)
 .env
 .env.backup
 .env.production
-.phpactor.json
+.env.local
+/auth.json
+
+# Cache PHP / tests
 .phpunit.result.cache
+/.phpunit.cache
+/phpunit.xml.bak
+
+# IDE / éditeurs
 /.codex
 /.cursor/
+/.fleet
 /.idea
 /.nova
-/.phpunit.cache
 /.vscode
 /.zed
-/auth.json
-/node_modules
-/public/build
-/public/fonts-manifest.dev.json
-/public/hot
-/public/storage
-/storage/*.key
-/storage/pail
-/vendor
+.phpactor.json
+
+# Outils
 _ide_helper.php
 Homestead.json
 Homestead.yaml
+
+# Système
+.DS_Store
 Thumbs.db
+
+# Stockage local lié
+/public/storage
+
+# Journaux et sauvegardes SQL
+*.log
+*.sql.gz
+*.bak
+
+# Clés applicatives
+/storage/*.key
+/storage/pail
