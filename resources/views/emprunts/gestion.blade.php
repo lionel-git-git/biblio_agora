@@ -76,6 +76,8 @@
                                         message: 'La demande d\'emprunt de « {{ $emprunt->livre->titre }} » sera acceptée et un exemplaire sera retiré du stock.',
                                         action: '{{ route('emprunts.valider', $emprunt) }}',
                                         method: 'PATCH',
+                                        tone: 'success',
+                                        confirmIcon: 'check',
                                         confirmLabel: 'Valider'
                                     })"
                                     class="inline-flex items-center gap-xs bg-success-container text-on-success-container rounded-lg px-md py-sm font-label-sm text-label-sm hover:opacity-80 transition-opacity">
@@ -87,6 +89,8 @@
                                         message: 'La demande d\'emprunt de « {{ $emprunt->livre->titre }} » sera refusée.',
                                         action: '{{ route('emprunts.refuser', $emprunt) }}',
                                         method: 'PATCH',
+                                        tone: 'danger',
+                                        confirmIcon: 'close',
                                         confirmLabel: 'Refuser'
                                     })"
                                     class="inline-flex items-center gap-xs bg-error-container text-on-error-container rounded-lg px-md py-sm font-label-sm text-label-sm hover:opacity-80 transition-opacity">
@@ -103,6 +107,8 @@
                                         message: 'Le retour de « {{ $emprunt->livre->titre }} » sera enregistré et l\'exemplaire remis en stock.',
                                         action: '{{ route('emprunts.retour', $emprunt) }}',
                                         method: 'PATCH',
+                                        tone: 'question',
+                                        confirmIcon: 'assignment_return',
                                         confirmLabel: 'Enregistrer'
                                     })"
                                     class="inline-flex items-center gap-xs bg-primary-container text-on-primary rounded-lg px-md py-sm font-label-sm text-label-sm hover:bg-primary transition-colors">

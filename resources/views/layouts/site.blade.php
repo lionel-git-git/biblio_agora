@@ -140,7 +140,7 @@
                     <span class="font-label-sm text-label-sm">{{ $item['label'] }}</span>
                 </a>
             @endforeach
-            <a href="#" @click.prevent="$store.confirm.ask({ title: 'Se déconnecter ?', message: 'Voulez-vous vraiment vous déconnecter de votre session Agora ?', action: '{{ route('logout') }}', method: 'POST', confirmLabel: 'Se déconnecter' })" class="text-on-primary/70 hover:text-on-primary flex items-center px-4 py-3 mx-2 hover:bg-on-primary/10 transition-all">
+            <a href="#" @click.prevent="$store.confirm.ask({ title: 'Se déconnecter ?', message: 'Voulez-vous vraiment vous déconnecter de votre session Agora ?', action: '{{ route('logout') }}', method: 'POST', tone: 'question', confirmIcon: 'logout', confirmLabel: 'Se déconnecter' })" class="text-on-primary/70 hover:text-on-primary flex items-center px-4 py-3 mx-2 hover:bg-on-primary/10 transition-all">
                 <span class="material-symbols-outlined mr-sm">logout</span>
                 <span class="font-label-sm text-label-sm">Déconnexion</span>
             </a>
@@ -177,7 +177,7 @@
                     <a href="{{ route('dashboard') }}" class="flex items-center gap-sm px-md py-sm text-body-md text-on-surface hover:bg-surface-container-low">
                         <span class="material-symbols-outlined text-[18px] text-secondary">space_dashboard</span> Tableau de bord
                     </a>
-                    <a href="#" @click.prevent="$store.confirm.ask({ title: 'Se déconnecter ?', message: 'Voulez-vous vraiment vous déconnecter de votre session Agora ?', action: '{{ route('logout') }}', method: 'POST', confirmLabel: 'Se déconnecter' })" class="flex items-center gap-sm px-md py-sm text-body-md text-error hover:bg-error-container">
+                    <a href="#" @click.prevent="$store.confirm.ask({ title: 'Se déconnecter ?', message: 'Voulez-vous vraiment vous déconnecter de votre session Agora ?', action: '{{ route('logout') }}', method: 'POST', tone: 'question', confirmIcon: 'logout', confirmLabel: 'Se déconnecter' })" class="flex items-center gap-sm px-md py-sm text-body-md text-error hover:bg-error-container">
                         <span class="material-symbols-outlined text-[18px]">logout</span> Déconnexion
                     </a>
                 </div>
@@ -198,15 +198,48 @@
 </div>
 
 <div x-data>
-    <div x-show="$store.confirm.open" x-transition:opacity class="fixed inset-0 z-[60] flex items-center justify-center p-md" x-cloak style="display:none;">
-        <div class="absolute inset-0 bg-black/50" @click="$store.confirm.cancel()"></div>
-        <div class="relative bg-surface-container-lowest rounded-xl shadow-xl max-w-md w-full p-lg">
-            <h3 class="font-headline-md text-headline-md text-on-surface mb-sm" x-text="$store.confirm.title"></h3>
-            <p class="font-body-md text-body-md text-on-surface-variant mb-lg" x-text="$store.confirm.message"></p>
-            <div class="flex justify-end gap-md">
-                <button @click="$store.confirm.cancel()" class="bg-surface-container-low text-on-surface font-label-sm text-label-sm py-sm px-lg rounded-lg hover:bg-surface-container-high transition-colors">Annuler</button>
-                <button @click="$store.confirm.confirm()" :disabled="$store.confirm.submitting" class="bg-error text-on-error font-label-sm text-label-sm font-bold py-sm px-lg rounded-lg hover:bg-error-container transition-colors disabled:opacity-60">
-                    <span x-show="$store.confirm.submitting" class="inline-block w-3 h-3 border-2 border-on-error border-t-transparent rounded-full animate-spin align-middle mr-xs"></span>
+    <div x-show="$store.confirm.open"
+         x-transition:enter="transition ease-out duration-150"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-100"
+         x-transition:leave-end="opacity-0"
+         x-cloak style="display:none;"
+         class="fixed inset-0 z-[60] flex items-center justify-center p-md"
+         role="dialog" aria-modal="true" x-bind:aria-label="$store.confirm.title">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-[2px]" @click="$store.confirm.cancel()"></div>
+        <div x-show="$store.confirm.open"
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 scale-95 translate-y-2"
+             x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-100"
+             x-transition:leave-end="opacity-0 scale-95"
+             class="relative bg-surface-container-lowest rounded-xl shadow-2xl w-full max-w-md overflow-hidden">
+            <div class="h-1.5 w-full" x-bind:class="$store.confirm.toneBar"></div>
+            <div class="p-lg flex items-start gap-md">
+                <div class="w-12 h-12 rounded-full flex items-center justify-center shrink-0 shadow-sm mt-xs"
+                     x-bind:class="$store.confirm.toneIconBg">
+                    <span class="material-symbols-outlined text-[26px]"
+                          style="font-variation-settings: 'FILL' 1;"
+                          x-bind:class="$store.confirm.toneIconColor"
+                          x-text="$store.confirm.toneIcon"></span>
+                </div>
+                <div class="flex-1 pt-lg">
+                    <h3 class="font-headline-md text-headline-md text-on-surface font-bold leading-snug" x-text="$store.confirm.title"></h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant mt-xs leading-relaxed" x-text="$store.confirm.message"></p>
+                </div>
+            </div>
+            <div class="flex items-center justify-end gap-sm px-lg pb-lg border-t border-surface-container-high bg-surface-container-low/50 pt-md">
+                <button @click="$store.confirm.cancel()"
+                        class="inline-flex items-center gap-xs bg-transparent text-on-surface-variant font-label-sm text-label-sm font-semibold py-sm px-md rounded-lg border border-outline-variant hover:bg-surface-container-low hover:border-outline transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">close</span> Annuler
+                </button>
+                <button @click="$store.confirm.confirm()"
+                        :disabled="$store.confirm.submitting"
+                        x-bind:class="$store.confirm.confirmBtnClasses"
+                        class="inline-flex items-center gap-xs font-label-sm text-label-sm font-bold py-sm px-lg rounded-lg transition-all disabled:opacity-60 disabled:cursor-not-allowed shadow-sm">
+                    <span x-show="$store.confirm.submitting" class="inline-block w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin"></span>
+                    <span class="material-symbols-outlined text-[18px]" x-show="!$store.confirm.submitting" x-text="$store.confirm.confirmIcon"></span>
                     <span x-text="$store.confirm.confirmLabel"></span>
                 </button>
             </div>
@@ -219,17 +252,21 @@
         Alpine.store('confirm', {
             open: false,
             submitting: false,
+            tone: 'danger',
             title: 'Êtes-vous sûr ?',
             message: 'Cette action est irréversible.',
             action: '',
             method: 'POST',
             confirmLabel: 'Confirmer',
+            confirmIcon: 'check',
             ask: function (config) {
+                this.tone = config.tone || 'danger';
                 this.title = config.title || 'Êtes-vous sûr ?';
                 this.message = config.message || 'Cette action est irréversible.';
                 this.action = config.action;
                 this.method = config.method || 'POST';
                 this.confirmLabel = config.confirmLabel || 'Confirmer';
+                this.confirmIcon = config.confirmIcon || (this.tone === 'danger' ? 'delete' : 'check');
                 this.open = true;
             },
             cancel: function () {
@@ -260,11 +297,35 @@
                     self.submitting = false;
                     self.open = false;
                 });
+            },
+            get toneIcon() {
+                if (this.tone === 'danger') return 'warning';
+                if (this.tone === 'success') return 'check_circle';
+                return 'help_center';
+            },
+            get toneIconColor() {
+                if (this.tone === 'danger') return 'text-error';
+                if (this.tone === 'success') return 'text-success';
+                return 'text-primary';
+            },
+            get toneIconBg() {
+                if (this.tone === 'danger') return 'bg-error-container';
+                if (this.tone === 'success') return 'bg-success-container';
+                return 'bg-primary-container/15';
+            },
+            get toneBar() {
+                if (this.tone === 'danger') return 'bg-error';
+                if (this.tone === 'success') return 'bg-success';
+                return 'bg-tertiary';
+            },
+            get confirmBtnClasses() {
+                if (this.tone === 'danger') return 'bg-error text-on-error hover:bg-primary hover:text-on-primary';
+                if (this.tone === 'success') return 'bg-success text-on-primary hover:bg-tertiary';
+                return 'bg-primary text-on-primary hover:bg-tertiary';
             }
         });
     });
 </script>
-
 <style>[x-cloak] { display: none !important; }</style>
 </body>
 </html>
