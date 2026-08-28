@@ -46,7 +46,11 @@
         <a class="text-secondary font-body-md hover:text-primary transition-colors" href="#">Aide</a>
         <a class="text-secondary font-body-md hover:text-primary transition-colors" href="{{ route('contact') }}">Contact</a>
     </nav>
+    @auth
+    <a href="{{ route('dashboard') }}" class="bg-primary-container text-on-primary rounded px-md py-sm font-label-sm text-label-sm hover:bg-primary transition-colors">Tableau de bord</a>
+    @else
     <a href="{{ route('login') }}" class="bg-primary-container text-on-primary rounded px-md py-sm font-label-sm text-label-sm hover:bg-primary transition-colors">Connexion</a>
+    @endauth
 </div>
 </header>
 
@@ -130,9 +134,24 @@
                     <span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider mb-1">{{ $livre->genre }}</span>
                     <h2 class="font-headline-md text-headline-md text-primary leading-tight mb-xs line-clamp-2">{{ $livre->titre }}</h2>
                     <p class="font-body-md text-body-md text-on-surface-variant mb-md flex-grow">{{ $livre->auteur }}</p>
-                    <button class="w-full bg-surface-container-low text-primary border border-outline-variant rounded px-sm py-sm font-label-sm text-label-sm hover:bg-surface-container-highest transition-colors mt-auto">
-                        Voir détails
-                    </button>
+                    @auth
+                        @if ($livre->quantite_disponible > 0)
+                            <form method="POST" action="{{ route('emprunts.store', $livre) }}" class="mt-auto">
+                                @csrf
+                                <button class="w-full bg-primary-container text-on-primary rounded px-sm py-sm font-label-sm text-label-sm hover:bg-primary transition-colors">
+                                    Demander l'emprunt
+                                </button>
+                            </form>
+                        @else
+                            <button disabled class="w-full bg-surface-container-low text-secondary border border-outline-variant rounded px-sm py-sm font-label-sm text-label-sm mt-auto cursor-not-allowed">
+                                Indisponible
+                            </button>
+                        @endif
+                    @else
+                        <button class="w-full bg-surface-container-low text-primary border border-outline-variant rounded px-sm py-sm font-label-sm text-label-sm hover:bg-surface-container-highest transition-colors mt-auto">
+                            Voir détails
+                        </button>
+                    @endauth
                 </div>
             </article>
             @empty

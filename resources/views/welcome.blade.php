@@ -56,17 +56,24 @@
         <a class="text-secondary font-body-md hover:text-primary transition-colors" href="{{ route('catalogue') }}">Catalogue</a>
         <a class="text-secondary font-body-md hover:text-primary transition-colors" href="#">Services</a>
         <a class="text-secondary font-body-md hover:text-primary transition-colors" href="#">Aide</a>
-        <a class="text-secondary font-body-md hover:text-primary transition-colors" href="#">Contact</a>
+        <a class="text-secondary font-body-md hover:text-primary transition-colors" href="{{ route('contact') }}">Contact</a>
     </nav>
     <div class="flex items-center gap-md">
         <div class="hidden lg:flex items-center bg-surface-container-low rounded-full px-md py-sm border border-outline-variant">
             <span class="material-symbols-outlined text-on-surface-variant mr-sm">search</span>
             <input class="bg-transparent border-none focus:ring-0 text-body-md font-body-md text-on-surface w-48 outline-none" placeholder="Recherche rapide..." type="text">
         </div>
+        @auth
+        <a href="{{ route('dashboard') }}" class="bg-primary text-on-primary font-label-sm text-label-sm px-lg py-sm rounded hover:bg-tertiary shadow-sm transition-all flex items-center gap-sm">
+            Tableau de bord
+            <span class="material-symbols-outlined text-[16px]">space_dashboard</span>
+        </a>
+        @else
         <a href="{{ route('login') }}" class="bg-primary text-on-primary font-label-sm text-label-sm px-lg py-sm rounded hover:bg-tertiary shadow-sm transition-all flex items-center gap-sm">
             Connexion
             <span class="material-symbols-outlined text-[16px]">login</span>
         </a>
+        @endauth
     </div>
 </div>
 </header>

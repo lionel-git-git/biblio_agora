@@ -46,9 +46,9 @@
         <span class="material-symbols-outlined text-primary text-[28px]" style="font-variation-settings: 'FILL' 1;">local_library</span>
         <span class="text-headline-md font-headline-md font-bold text-primary">Agora</span>
     </div>
-    <a href="{{ route('bibliothecaire.dashboard') }}" class="flex items-center gap-sm text-secondary font-body-md hover:text-primary transition-colors">
+    <a href="{{ route('livres.index') }}" class="flex items-center gap-sm text-secondary font-body-md hover:text-primary transition-colors">
         <span class="material-symbols-outlined text-[20px]">arrow_back</span>
-        Retour au tableau de bord
+        Retour au catalogue
     </a>
 </div>
 </header>
@@ -163,7 +163,7 @@
                     Ajouter le livre
                     <span class="material-symbols-outlined text-[18px]">add</span>
                 </button>
-                <a href="{{ route('bibliothecaire.dashboard') }}" class="flex justify-center items-center py-sm px-lg border border-outline-variant rounded-lg font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-container-low transition-colors">
+                <a href="{{ route('livres.index') }}" class="flex justify-center items-center py-sm px-lg border border-outline-variant rounded-lg font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-container-low transition-colors">
                     Annuler
                 </a>
             </div>

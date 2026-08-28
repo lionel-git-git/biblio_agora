@@ -25,4 +25,25 @@ class ContactController extends Controller
 
         return back()->with('success', 'Votre message a bien été envoyé. Nous vous répondrons dans les plus brefs délais.');
     }
+
+    public function indexAdmin()
+    {
+        $messages = MessageContact::latest()->paginate(15);
+
+        return view('admin.messages', compact('messages'));
+    }
+
+    public function marquerLu(MessageContact $message)
+    {
+        $message->update(['lu' => true]);
+
+        return back()->with('success', 'Message marqué comme lu.');
+    }
+
+    public function destroy(MessageContact $message)
+    {
+        $message->delete();
+
+        return back()->with('success', 'Message supprimé.');
+    }
 }
