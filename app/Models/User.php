@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password', 'role', 'sexe'])]
+#[Fillable(['name', 'email', 'password', 'role', 'sexe', 'photo'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -33,5 +33,33 @@ class User extends Authenticatable
     public function emprunts()
     {
         return $this->hasMany(Emprunt::class); // cela veut dire  "un utilisateur a plusieurs emprunts"
+    }
+
+    public function getPhotoUrlAttribute(): ?string
+    {
+        return $this->photo ? asset('storage/'.$this->photo) : null;
+    }
+
+    public function getInitialsAttribute(): string
+    {
+        $mots = preg_split('/\s+/', trim((string) $this->name));
+
+        $initiales = strtoupper(mb_substr($mots[0] ?? '?', 0, 1));
+
+        if (count($mots) > 1) {
+            $initiales .= strtoupper(mb_substr((string) end($mots), 0, 1));
+        }
+
+        return $initiales;
+    }
+
+    public function getRoleLabelAttribute(): string
+    {
+        return match ($this->role) {
+            'admin' => 'Administrateur',
+            'bibliothecaire' => 'Bibliothécaire',
+            'etudiant' => 'Étudiant',
+            default => ucfirst((string) $this->role),
+        };
     }
 }
